@@ -7,7 +7,7 @@
 
 ## AI Usage Disclosure
 
-This project was developed with AI assistance using OpenCode tooling. All files include AI usage disclosure headers at the top for academic integrity compliance. The University of Alberta Student Academic Integrity Policy applies: all AI-generated code must be independently verified by the student.
+This project was developed with AI assistance using OpenCode tooling. All files include AI usage disclosure headers at the top for academic integrity compliance. The University of Alberta Student Academic Integrity Policy applies: all AI-generated code must be independently verified by the student. AI model used was Qwen 3.5 9b on a 128k context.
 
 **Date of initial AI-assisted development:** November 09, 2026
 
