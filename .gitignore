@@ -1,0 +1,116 @@
+# ================================================================================
+# AI ASSISTANCE DISCLOSURE - .gitignore
+# ================================================================================
+# This file was created with AI assistance. It lists files to ignore by Git.
+# Student verification: Review entries for your specific project needs.
+# Add any additional patterns if needed.
+=================================================================================
+
+# Byte-compiled, optimized Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Environments
+.env
+.venv
+env/
+.venv/
+env.bak/
+venv/
+ENV/
+env.bak/
+.vien/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+wordcount.txt
+
+# Python-specific (important for this project)
+config/__pycache__/
+geometry/__pycache__/
+optics/__pycache__/
+mask/__pycache__/
+optimization/__pycache__/
+surrogate/__pycache__/
+saga/__pycache__/
+visualization/__pycache__/
+experiments/__pycache__/
+
+# Test outputs
+*.png
+*.pdf
+*.fig
+__notebook_dir_check__/
+*checkpoint*
+
+# Environment variables (DO NOT commit)
+.env.example  # But keep this template if helpful for documentation
+

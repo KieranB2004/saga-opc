@@ -1,0 +1,37 @@
+=================================================================================
+AI ASSISTANCE DISCLOSURE - requirements.txt
+=================================================================================
+This file was created with AI assistance using OpenCode tooling. The file 
+contains Python package dependencies for the SAGA-OPC project.
+
+Student verification required:
+1. Install these packages and verify they work together
+2. Confirm version compatibility with your system (run: pip install -r requirements.txt)
+3. Add any additional packages needed for your specific setup
+4. Document any deviations from default versions in lab notebook
+
+Date created: 2026-11-11
+=================================================================================
+=================================================================================
+SAGA-OPC Project Dependencies
+Version pins ensure reproducibility across different environments
+
+Installation command: pip install -r requirements.txt
+=================================================================================
+```
+# ================================================================================
+# SAGA-OPC Python Package Dependencies
+# Purpose: Define all Python packages required for project installation
+# Strategy: Pin major versions with flexible minor versions to balance
+#           stability vs. access to latest bug fixes
+# 
+# Each dependency is selected for specific reasons explained below
+# ================================================================================
+
+numpy>=1.26.0,<3.0.0          # Core numerical array operations, FFT functions
+scipy>=1.12.0,<2.0.0          # Scientific computing, Gaussian kernels, FFT utilities
+matplotlib>=3.8.0,<4.0.0      # 2D plotting for optimization progress visualization
+scikit-learn>=1.4.0,<2.0.0    # GaussianProcessRegressor for surrogate modeling
+pyyaml>=6.0.0,<7.0.0         # YAML configuration file parsing
+pytest>=8.0.0,<9.0.0          # Testing framework with parameterized tests
+```

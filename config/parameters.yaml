@@ -1,0 +1,103 @@
+=================================================================================
+AI ASSISTANCE DISCLOSURE - config/parameters.yaml
+=================================================================================
+This configuration file was created with AI assistance based on project 
+requirements and your specified parameters.
+
+Student verification required:
+1. Review each parameter value for your experiment needs
+2. Modify any values that need adjustment before running experiments
+3. Document any deviations from default settings in a lab notebook
+4. Track hyperparameter changes as you tune the system
+
+Date created: 2026-11-11
+=================================================================================
+=================================================================================
+SAGA-OPC Simulation Parameters Configuration File
+=================================================================================
+Description: All simulation and optimization parameters controlled via YAML.
+             Modify values here without changing source code.
+
+Top-level categories:
+  - optimization: Genetic algorithm configuration  
+  - surrogate: Gaussian process model settings
+  - optics: Lithography physics parameters
+  - metrics: Error metric thresholds
+  - printing: Resist development threshold
+  - experiment: Random seeds and run limits
+=================================================================================
+
+# ================================================================================
+# Genetic Algorithm Configuration
+# ================================================================================
+
+optimization:
+  # GA Parameters (configurable per-experiment)
+  population_size: 15              # Default: 15 individuals per generation
+  crossover_parent_count: 6        # Number of parents selected for crossover
+  expected_children_from_crossover: 9  # Children produced after parent removal
+  
+# ================================================================================
+# Gaussian Process Surrogate Model Settings
+# ================================================================================
+
+surrogate:
+  initial_training_points: 10      # Initial GP training set size before GA starts
+  update_frequency_generations: 5   # Retrain surrogate every N generations
+  kernel_type: "rbf"               # RBF (Gaussian) kernel; alternatives: "matern", "linear"
+  length_scale: 1.0                # Length scale hyperparameter for RBF kernel
+  noise_variance: 1e-6             # Observation noise standard deviation in GP model
+  use_noise_variance: true         # Include observation noise in GP model
+
+# ================================================================================
+# Scalar Diffraction Simulation Parameters
+# ================================================================================
+
+optics:
+  wavelength_nm: 0.193             # 193 nm DUV lithography wavelength
+  numerical_aperture: 0.93         # Numerical aperture NA = 0.93 (fixed for initial)
+  coherence_factor_sigma: 0.75     # Partial coherence factor σ = 0.75 (fixed initially)
+  grid_resolution_px_per_um: 5    # Grid resolution: 5 pixels per micron (~200nm/pixel)
+
+# ================================================================================
+# Error Metrics and Success Criteria
+# ================================================================================
+
+metrics:
+  iou_threshold_acceptable: 0.8    # Accept IoU > 0.8 for successful OPC
+  area_error_threshold: 0.01       # Maximum acceptable area error in µm² (optional)
+  
+# ================================================================================
+# Resist Development Threshold
+# ================================================================================
+
+printing:
+  default_intensity_threshold: 0.5 # Global intensity threshold for resist model [0,1]
+  threshold_unitless: true         # Threshold is normalized relative to max intensity
+
+# ================================================================================
+# Experimental Configuration
+# ================================================================================
+
+experiment:
+  random_seed: 42                  # Fixed seed for reproducibility (change if needed)
+  max_generations: 30              # GA termination limit in generations  
+  number_of_trials_per_experiment: 5  # Number of repeated trials for statistics
+
+# ================================================================================
+# Visualization Settings
+# ================================================================================
+
+visualization:
+  figure_size_inches: [8, 6]       # Default matplotlib figure dimensions
+  font_size: 12                    # Font size for plots and labels
+  save_dpi: 300                   # DPI when saving figures to file
+
+# ================================================================================
+# Logging Configuration
+# ================================================================================
+
+logging:
+  log_level: "INFO"               # Logging level: DEBUG, INFO, WARNING, ERROR
+  log_file: null                  # Log file path (null = console only)
+  verbose: true                   # Print progress messages to stdout during optimization
