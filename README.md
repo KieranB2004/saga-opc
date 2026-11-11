@@ -46,23 +46,6 @@ This project develops a Python-based computational simulator for simplified 193 
 
 ---
 
-## Architecture Overview
-
-```
-┌─────────────┐     ┌──────────────┐     ┌──────────────┐
-│   Geometry  │────▶│    Optics    │────▶│   Printing    │
-│  (import)   │     │(FFT simulation)│    │  (threshold)  │
-└─────────────┘     └──────────────┘     └──────────────┘
-                                           │
-                                          ▼
-┌─────────────┐     ┌──────────────┐     ┌──────────────┐
-│   Mask      │◀────│  Optimization │     │    Metrics   │
-│ (chro. mgmt)│     │   (GA/SAGA)  │────▶│  (error calc)│
-└─────────────┘     └──────────────┘     └──────────────┘
-```
-
----
-
 ## Requirements
 
 ### Python Version
