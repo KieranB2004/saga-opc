@@ -137,13 +137,4 @@ By completing the verification steps above, the student certifies:
 - No confidential or proprietary information uploaded to external services
 - Results accurately reported without fabrication of data or citations
 
----
-
-## Questions?
-
-Contact instructor if clarification needed on:
-- What constitutes acceptable AI assistance
-- How to properly verify complex mathematical implementations
-- Edge cases in academic integrity policy
-
 **Remember:** The goal is learning, not just code completion. Take time to understand each component before moving forward.
