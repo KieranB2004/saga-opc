@@ -19,6 +19,7 @@ Student tasks marked with TODO-import-gds-parsing and [STUDENT-VERIFY] notes
 
 import numpy as np
 from typing import List, Dict, Tuple
+from gdstk import read
 
 
 # ================================================================================
@@ -130,8 +131,11 @@ def import_gds(filepath: str, layer: int = -1) -> List[Tuple[np.ndarray, Dict]]:
     # Requires reading GDSII binary format specification and implementing
     # byte-level parsing for .gds file structure.
     
-    # Student to choose implementation approach and complete code here
-    raise NotImplementedError(
-        "Student must implement GDSII file parsing logic. "
-        "See docstring for implementation options using gdstk library."
-    )
+    # STUDENT IMPLEMENTATION
+    
+    try:
+      print("hu")
+      
+    
+      except NotImplementedError:
+          raise NotImplementedError("Student must implement GDSII file parsing logic. ""See docstring for implementation options using gdstk library.")

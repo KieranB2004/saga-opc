@@ -24,5 +24,5 @@ from geometry.export_mask_as_polygons import export_mask_as_polygons
 from geometry.convert_to_simulation_grid import convert_to_simulation_grid
 
 
-__version__ = "0.1.0-dev"  # Student to update with actual version
-__author__ = ""  # Student to add name
+__version__ = "0.1.0-dev"
+__author__ = "Kieran Brousseau"
