@@ -28,7 +28,7 @@ from geometry.export_mask_as_polygons import export_mask_as_polygons
 
 def convert_to_simulation_grid(
     polygons: List[Tuple[np.ndarray, str]], 
-    grid_resolution_px_per_um: float = 20.0,
+    grid_resolution_px_per_um: float = 40.0,
 ) -> np.ndarray:
     """
     Convert geometric polygons to simulation grid representation.
@@ -47,9 +47,9 @@ def convert_to_simulation_grid(
       polygons: List of polygon vertex arrays from import_gds or export_mask_as_polygons
       grid_resolution_px_per_um: Pixels per micron resolution, controls discretization
       
-      With px_per_um = 20.0:
-        - Each pixel represents a physical area of (1/20) = 0.05 µm × 0.05 µm
-        - A feature of width 1µm spans 20 pixels in grid representation
+      With px_per_um = 40.0:
+        - Each pixel represents a physical area of (1/40) = 0.025 µm × 0.025 µm
+        - A feature of width 1µm spans 40 pixels in grid representation
         - This matches your specified 50nm/pixel resolution target
       
     Rasterization algorithm:
