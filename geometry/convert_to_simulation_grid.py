@@ -50,7 +50,7 @@ def convert_to_simulation_grid(
       With px_per_um = 40.0:
         - Each pixel represents a physical area of (1/40) = 0.025 µm × 0.025 µm
         - A feature of width 1µm spans 40 pixels in grid representation
-        - This matches your specified 50nm/pixel resolution target
+        - This matches your specified 25nm/pixel resolution target
       
     Rasterization algorithm:
       1. Determine simulation window bounds from polygon features (or use fixed size)
