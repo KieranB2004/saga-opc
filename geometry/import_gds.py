@@ -149,6 +149,8 @@ def import_gds(filepath: str, layer: int = -1) -> List[Tuple[np.ndarray, Dict]]:
         }
         
         parsed_vertices.append((vertices, masklayer_info))
+        
+      return parsed_vertices
     
     except NotImplementedError:
       raise NotImplementedError("Student must implement GDSII file parsing logic. "
