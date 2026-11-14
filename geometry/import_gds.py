@@ -134,8 +134,22 @@ def import_gds(filepath: str, layer: int = -1) -> List[Tuple[np.ndarray, Dict]]:
     # STUDENT IMPLEMENTATION
     
     try:
-      print("hu")
       
+      layout = read(filepath)
+      
+      # XY is the points x,y vertice list
+      parsed_vertices = []
+      for shape in layout.shapes(layer=layer):
+        vertices = np.array([list(xy) for xy in shape.vertices])
+
+        masklayer_info = {
+          "layer": int(shape.layer),
+          "type": "rectilinear",
+          "description": "None"
+        }
+        
+        parsed_vertices.append((vertices, masklayer_info))
     
-      except NotImplementedError:
-          raise NotImplementedError("Student must implement GDSII file parsing logic. ""See docstring for implementation options using gdstk library.")
+    except NotImplementedError:
+      raise NotImplementedError("Student must implement GDSII file parsing logic. "
+                                "See docstring for implementation options using gdstk library.")
