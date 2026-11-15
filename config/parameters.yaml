@@ -57,7 +57,8 @@ optics:
   wavelength_nm: 0.193             # 193 nm DUV lithography wavelength
   numerical_aperture: 0.93         # Numerical aperture NA = 0.93 (fixed for initial)
   coherence_factor_sigma: 0.75     # Partial coherence factor σ = 0.75 (fixed initially)
-  grid_resolution_px_per_um: 5    # Grid resolution: 5 pixels per micron (~200nm/pixel)
+  grid_resolution_px_per_um: 400    # Grid resolution: 400 pixels per micron (5nm/pixel)
+  window_size_xy: 512              # window size for optics
 
 # ================================================================================
 # Error Metrics and Success Criteria
@@ -80,7 +81,7 @@ printing:
 # ================================================================================
 
 experiment:
-  random_seed: 42                  # Fixed seed for reproducibility (change if needed)
+  random_seed: 777                 # Fixed seed for reproducibility (change if needed)
   max_generations: 30              # GA termination limit in generations  
   number_of_trials_per_experiment: 5  # Number of repeated trials for statistics
 

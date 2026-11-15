@@ -19,6 +19,7 @@ Date created: 2026-11-11
 
 import numpy as np
 from typing import List, Tuple
+from config.config import CONFIG
 
 
 # ================================================================================
@@ -65,7 +66,7 @@ class MaskFeature:
     TODO-chromosome-initialization-code:
       
     def __init__(self, shape, grid_resolution=5.0):
-        """Initialize empty mask chromosome."""
+        Initialize empty mask chromosome.
         self._vertices = []
         self._feature_types = []
         self._grid_resolution = grid_resolution
@@ -74,7 +75,6 @@ class MaskFeature:
     TODO-chromosome-add-feature-implementation:
       
     def add_feature(self, x_center_um, y_center_um, width_um, height_um):
-        """
         Add a rectangular OPC feature to the mask.
         
         Physical model:
@@ -99,7 +99,7 @@ class MaskFeature:
         TODO-chromosome-remove-feature-implementation:
       
     def remove_feature(self, index):
-        """Remove feature at given index from internal storage."""
+        Remove feature at given index from internal storage.
         pass  # Student to implement
         
     TODO-chromosome-get-methods:
@@ -115,10 +115,15 @@ class MaskFeature:
     Implementation after TODO markers below...
     """
     
-    def __init__(self, shape, grid_resolution=5.0):
-        # TODO-chromosome-initialization-code
-        
-        pass  # Student implementation here
+    # reading in YAML config for grid resolution
+    PX_PER_UM = CONFIG["optics"]["grid_resolution_px_per_um"]
+    
+    
+    def __init__(self, shape, grid_resolution=PX_PER_UM):
+      # TODO-chromosome-initialization-code
+      self._vertices = []
+      self._feature_types = []
+      self._grid_resolution = grid_resolution
     
     def add_feature(self, x_center_um, y_center_um, width_um, height_um) -> bool:
         # TODO-chromosome-add-feature-implementation

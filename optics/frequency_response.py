@@ -101,7 +101,7 @@ def get_frequency_response(
     """
     # TODO-frequency-response-student-implementation-start
     
-    student_code_here
+    # Student implementation skeleton:
     
     raise NotImplementedError(
         "Student must implement OTF frequency response computation."

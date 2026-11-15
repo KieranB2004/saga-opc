@@ -22,6 +22,7 @@ from typing import List, Tuple
 from shapely import Polygon as GeometryPolygon
 from shapely import polygon_minmax
 from geometry.export_mask_as_polygons import export_mask_as_polygons
+from config.config import CONFIG
 
 
 # ================================================================================
@@ -167,8 +168,8 @@ def convert_to_simulation_grid(
     
     # Student implementation skeleton:
     
-    # window parameters(NOTE: change to YAML later)
-    # window currently 512 x 512 pixels, 2560 nm x 2560 nm
+    # reading in window size through YAML
+    WINDOW_SIZE = CONFIG["optics"]["window_size_xy"]
     window = np.zeros(512, 512)
     windowx = window[0]
     windowy = window[1]

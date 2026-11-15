@@ -19,3 +19,8 @@ from mask.chromosome import MaskFeature
 
 
 __version__ = "0.1.0-dev"
+
+def __init__(self, shape, grid_resolution=5.0):
+    self._vertices = []
+    self._feature_types = []
+    self._grid_resolution = grid_resolution
