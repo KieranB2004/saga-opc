@@ -100,10 +100,8 @@ def export_mask_as_polygons(mask_data: Dict) -> List[Tuple[np.ndarray, str]]:
       """
     # TODO-export-mask-student-implementation-start
     
-    # Student implementation skeleton:
-    
     # Initialize empty list to collect polygon results
-    polygons = []
+  
     
     # TODO: Extract features from mask_data dictionary
     # if "features" in mask_data:
@@ -112,6 +110,16 @@ def export_mask_as_polygons(mask_data: Dict) -> List[Tuple[np.ndarray, str]]:
     #     raise ValueError("mask_data must contain 'features' key")
     
     # Student to implement the conversion logic here
+    
+    # Student implementation skeleton:
+    
+    
+    polygons = []
+    
+    
+    
+    
+
     raise NotImplementedError(
         "Student must implement dictionary-to-polygon conversion logic. "
         "See docstring for required steps and vertex ordering convention."

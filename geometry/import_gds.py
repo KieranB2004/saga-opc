@@ -152,6 +152,5 @@ def import_gds(filepath: str, layer: int = -1) -> List[Tuple[np.ndarray, Dict]]:
         
       return parsed_vertices
     
-    except NotImplementedError:
-      raise NotImplementedError("Student must implement GDSII file parsing logic. "
-                                "See docstring for implementation options using gdstk library.")
+    except FileNotFoundError:
+        raise FileNotFoundError("Data Not Found: Input Data Path invalid")
