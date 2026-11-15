@@ -195,3 +195,5 @@ def convert_to_simulation_grid(
         if GeometryPolygon(polygons[0]).contains(point = (pixel_center_x, pixel_center_y)):
           
           output_grid[row, col] = 1.0
+    
+    return output_grid
