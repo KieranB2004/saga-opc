@@ -126,9 +126,26 @@ class MaskFeature:
       self._grid_resolution = grid_resolution
     
     def add_feature(self, x_center_um, y_center_um, width_um, height_um) -> bool:
-        # TODO-chromosome-add-feature-implementation
+        parsed_vertice = []
+        # bottom left
+        x = x_center_um - width_um / 2
+        y = y_center_um - height_um / 2
+        point_bl = (x, y)
+        # bottom right
+        x = x_center_um + width_um / 2
+        y = y_center_um - height_um / 2
+        point_br = (x, y)
+        # top right
+        x = x_center_um + width_um / 2
+        y = y_center_um + height_um / 2
+        point_tr = (x, y)
+        # top left
+        x = x_center_um - width_um / 2
+        y = y_center_um + height_um / 2
+        point_tl = (x, y)
         
-        pass  # Student implementation here
+        self._vertices.extend([point_bl, point_br, point_tr, point_tl])
+        self._feature_types.extend(["rectangle"] * 4)
     
     def remove_feature(self, index: int) -> bool:
         # TODO-chromosome-remove-feature-implementation
