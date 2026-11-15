@@ -106,27 +106,6 @@ Before submitting any student code for evaluation:
 
 ---
 
-## Independent Verification Steps
-
-To verify AI-generated explanations are correct:
-
-### Optical Simulation Math:
-1. Check that FFT-based implementation matches analytical Fourier transform
-2. Verify frequency cutoff = NA / wavelength  
-3. Test with uniform mask → should produce uniform aerial image
-
-### Gaussian Process Regression:
-1. Implement simple 1D GP and compare against sklearn reference
-2. Verify mean prediction lies between training y-values (mostly)
-3. Confirm variance is always non-negative
-
-### Genetic Algorithm Operators:
-1. Manually trace one generation of GA with paper/pencil  
-2. Verify crossover produces correct number of children
-3. Test mutation preserves population size exactly
-
----
-
 ## Academic Integrity Statement
 
 By completing the verification steps above, the student certifies:
@@ -136,5 +115,3 @@ By completing the verification steps above, the student certifies:
 - Implementation reflects personal learning and development effort  
 - No confidential or proprietary information uploaded to external services
 - Results accurately reported without fabrication of data or citations
-
-**Remember:** The goal is learning, not just code completion. Take time to understand each component before moving forward.
