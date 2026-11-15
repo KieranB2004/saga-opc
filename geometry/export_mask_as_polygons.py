@@ -18,7 +18,7 @@ Student tasks marked with TODO-export-mask-conversion and [STUDENT-VERIFY] notes
 """
 
 import numpy as np
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
 
 # ================================================================================

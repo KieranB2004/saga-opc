@@ -19,6 +19,8 @@ Student tasks marked with TODO-grid-rasterization and [STUDENT-VERIFY] notes
 
 import numpy as np
 from typing import List, Tuple
+from shapely import Polygon as GeometryPolygon
+from shapely import polygon_minmax
 from geometry.export_mask_as_polygons import export_mask_as_polygons
 
 
@@ -84,13 +86,13 @@ def convert_to_simulation_grid(
     [STUDENT-VERIFY]: 
       Test with known rectangular features:
       - Create simple 2x2 micron rectangle centered at (5, 5)
-      - Rasterize and verify exactly 10x10 pixels marked as opaque
+      - Rasterize and verify exactly 200x200 pixels marked as opaque
       - Check that surrounding pixels remain transparent
       
     Parameters:
       polygons (List[Tuple[np.ndarray, str]]): Input geometric features from previous modules
         Each tuple contains (vertices_array, feature_type)
-      grid_resolution_px_per_um (float, default=5.0): Pixels per micron resolution
+      grid_resolution_px_per_um (float, default=200.0): Pixels per micron resolution
       
     Returns:
       np.ndarray: 2D float/bool array representing mask transmission
@@ -150,8 +152,6 @@ def convert_to_simulation_grid(
     """
     # TODO-grid-rasterization-student-implementation-start
     
-    # Student implementation skeleton:
-    
     # Import shapely for polygon operations (or implement manually)
     # from shapely import Polygon, Point, box  # or use numpy-only approach
     
@@ -164,7 +164,34 @@ def convert_to_simulation_grid(
     # TODO: Implement rasterization loop over polygons
     #       For each polygon, fill covered grid cells
     
-    raise NotImplementedError(
-        "Student must implement polygon-to-grid rasterization. "
-        "See docstring for algorithm options and implementation hints."
-    )
+    
+    # Student implementation skeleton:
+    
+    # window parameters(NOTE: change to YAML later)
+    # window currently 512 x 512 pixels, 2560 nm x 2560 nm
+    window = np.zeros(512, 512)
+    windowx = window[0]
+    windowy = window[1]
+    
+    output_grid = np.zeros(windowx, windowy)
+    
+    grid_origin_x = 0
+    grid_origin_y = 0
+    
+    min_x_um, max_x_um = polygon_minmax(polygons[0][:, 0])
+    min_y_um, max_y_um = polygon_minmax(polygons[0][:, 1])
+    
+    start_col_idx = int((grid_origin_x - min_x_um) * grid_resolution_px_per_um)
+    end_col_idx = int((min(max_x_um, windowx) - grid_origin_x) * grid_resolution_px_per_um)
+    
+    start_row_idy = int((grid_origin_y - min_y_um) * grid_resolution_px_per_um)
+    end_row_idy = int((min(max_y_um, windowy) - grid_origin_y) * grid_resolution_px_per_um)
+    
+    for col in range(start_col_idx, end_col_idx):
+      for row in range(start_row_idy, end_row_idy):
+        pixel_center_x = grid_origin_x + (col + 0.5) / grid_resolution_px_per_um
+        pixel_center_y = grid_origin_y + (row + 0.5) / grid_resolution_px_per_um
+
+        if GeometryPolygon(polygons[0]).contains(point = (pixel_center_x, pixel_center_y)):
+          
+          output_grid[row, col] = 1.0
