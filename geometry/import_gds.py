@@ -19,7 +19,8 @@ Student tasks marked with TODO-import-gds-parsing and [STUDENT-VERIFY] notes
 
 import numpy as np
 from typing import List, Dict, Tuple
-from gdstk import read
+# NOTE: FIX IMPORT
+# from gdstk import read
 
 
 # ================================================================================

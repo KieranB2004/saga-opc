@@ -20,10 +20,9 @@ Student tasks marked with TODO-grid-rasterization and [STUDENT-VERIFY] notes
 import numpy as np
 from typing import List, Tuple
 from shapely import Polygon as GeometryPolygon
-from shapely import polygon_minmax
 from geometry.export_mask_as_polygons import export_mask_as_polygons
 from config.config import CONFIG
-
+from shapely.geometry import Point
 
 # ================================================================================
 # FUNCTION: convert_to_simulation_grid
@@ -170,18 +169,41 @@ def convert_to_simulation_grid(
     
     # reading in window size through YAML
     WINDOW_SIZE = CONFIG["optics"]["window_size_xy"]
-    window = np.zeros(512, 512)
-    windowx = window[0]
-    windowy = window[1]
+    windowx, windowy = WINDOW_SIZE, WINDOW_SIZE
     
-    output_grid = np.zeros(windowx, windowy)
+    output_grid = np.zeros((windowx, windowy), dtype=np.float32)
     
     grid_origin_x = 0
     grid_origin_y = 0
     
-    min_x_um, max_x_um = polygon_minmax(polygons[0][:, 0])
-    min_y_um, max_y_um = polygon_minmax(polygons[0][:, 1])
     
+    # HELPED BY QWEN 3.5: polygon_minmax not importing correctly: temp fix(look into polygon_minmax function)
+    all_x_coords = []
+    all_y_coords = []
+
+    for vertices_data in polygons:
+        vertices = vertices_data[0]
+        if not isinstance(vertices, np.ndarray):
+            vertices = np.array(vertices)
+          
+        if len(vertices.shape) == 1 and len(vertices) > 0:
+            vertices = vertices.reshape(-1, 2)
+
+        if vertices.size > 0:
+            all_x_coords.extend(vertices[:, 0])
+            all_y_coords.extend(vertices[:, 1])
+
+    if all_x_coords:
+        min_x_um, max_x_um = np.min(all_x_coords), np.max(all_x_coords)
+    else:
+        min_x_um, max_x_um = 0.0, 0.0
+    if all_y_coords:
+        min_y_um, max_y_um = np.min(all_y_coords), np.max(all_y_coords)
+    else:
+        min_y_um, max_y_um = 0.0, 0.0
+        
+    # end here
+        
     start_col_idx = int((grid_origin_x - min_x_um) * grid_resolution_px_per_um)
     end_col_idx = int((min(max_x_um, windowx) - grid_origin_x) * grid_resolution_px_per_um)
     
@@ -192,9 +214,19 @@ def convert_to_simulation_grid(
       for row in range(start_row_idy, end_row_idy):
         pixel_center_x = grid_origin_x + (col + 0.5) / grid_resolution_px_per_um
         pixel_center_y = grid_origin_y + (row + 0.5) / grid_resolution_px_per_um
-
-        if GeometryPolygon(polygons[0]).contains(point = (pixel_center_x, pixel_center_y)):
-          
-          output_grid[row, col] = 1.0
+        
+        # Helped by Qwen 3.5 to fix polygon only reading x coordinates bug
+        # FIXED: Check if ANY polygon contains this pixel center
+        for vertices_data in polygons:
+            vertices = vertices_data[0]
+            
+            if len(vertices.shape) == 1 and len(vertices) > 0:
+                vertices = vertices.reshape(-1, 2)
+                
+            try:
+                if GeometryPolygon(vertices).contains(Point(pixel_center_x, pixel_center_y)):
+                    output_grid[row, col] = 1.0
+            except (ValueError, TypeError):
+                continue
     
     return output_grid
