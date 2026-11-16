@@ -1,0 +1,28 @@
+=================================================================================
+AI ASSISTANCE DISCLOSURE - config/parameters.yaml
+=================================================================================
+This configuration file was created with AI assistance based on project 
+requirements and your specified parameters.
+
+Student verification required:
+1. Review each parameter value for your experiment needs
+2. Modify any values that need adjustment before running experiments
+3. Document any deviations from default settings in a lab notebook
+4. Track hyperparameter changes as you tune the system
+
+Date created: 2026-11-11
+=================================================================================
+=================================================================================
+SAGA-OPC Simulation Parameters Configuration File
+=================================================================================
+Description: All simulation and optimization parameters controlled via YAML.
+             Modify values here without changing source code.
+
+Top-level categories:
+  - optimization: Genetic algorithm configuration  
+  - surrogate: Gaussian process model settings
+  - optics: Lithography physics parameters
+  - metrics: Error metric thresholds
+  - printing: Resist development threshold
+  - experiment: Random seeds and run limits
+=================================================================================
