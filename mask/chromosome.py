@@ -148,6 +148,5 @@ class MaskFeature:
         self._feature_types.extend(["rectilinear"] * 4)
     
     def remove_feature(self, index: int) -> bool:
-        # TODO-chromosome-remove-feature-implementation
-        
-        pass  # Student implementation here
+        self._vertices.remove(index)
+        self._feature_types.remove(["rectilinear"] * 4)
