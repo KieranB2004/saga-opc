@@ -145,7 +145,7 @@ class MaskFeature:
         point_tl = (x, y)
         
         self._vertices.extend([point_bl, point_br, point_tr, point_tl])
-        self._feature_types.extend(["rectangle"] * 4)
+        self._feature_types.extend(["rectilinear"] * 4)
     
     def remove_feature(self, index: int) -> bool:
         # TODO-chromosome-remove-feature-implementation

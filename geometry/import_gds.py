@@ -19,8 +19,7 @@ Student tasks marked with TODO-import-gds-parsing and [STUDENT-VERIFY] notes
 
 import numpy as np
 from typing import List, Dict, Tuple
-# NOTE: FIX IMPORT
-# from gdstk import read
+from gdstk import read_gds
 
 
 # ================================================================================
@@ -135,7 +134,7 @@ def import_gds(filepath: str, layer: int = -1) -> List[Tuple[np.ndarray, Dict]]:
     # STUDENT IMPLEMENTATION
     
     try:
-      layout = read(filepath)
+      layout = read_gds(filepath)
         
       # XY is the points x,y vertice list
       parsed_vertices = []
