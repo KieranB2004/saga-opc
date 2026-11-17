@@ -23,16 +23,16 @@ from scipy import fftpack
 from typing import Tuple
 from config.config import CONFIG
 
-
 # ================================================================================
 # FUNCTION: compute_aerial_image
 # ================================================================================
 
+# Engineer updated config values, AI did not use config(verification done by engineer).
 def compute_aerial_image(
     mask_transmission: np.ndarray,
-    wavelength_nm: float = 0.193,
-    numerical_aperture: float = 0.93,
-    coherence_factor_sigma: float = 0.75,
+    wavelength_nm: float = CONFIG["optics"]["wavelength_nm"],
+    numerical_aperture: float = CONFIG["optics"]["numerical_aperture"],
+    coherence_factor_sigma: float = CONFIG["optics"]["coherence_factor_sigma"],
 ) -> np.ndarray:
     """
     Compute 2D aerial image using scalar diffraction theory and FFT.
