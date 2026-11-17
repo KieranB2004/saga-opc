@@ -6,9 +6,7 @@ requirements and your specified parameters.
 
 Student verification required:
 1. Review each parameter value for your experiment needs
-2. Modify any values that need adjustment before running experiments
-3. Document any deviations from default settings in a lab notebook
-4. Track hyperparameter changes as you tune the system
+2. Track hyperparameter changes as you tune the system
 
 Date created: 2026-11-11
 =================================================================================

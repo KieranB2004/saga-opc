@@ -21,6 +21,7 @@ Student tasks marked with TODO-optics-fft-computation and [STUDENT-VERIFY] notes
 import numpy as np
 from scipy import fftpack
 from typing import Tuple
+from config.config import CONFIG
 
 
 # ================================================================================
