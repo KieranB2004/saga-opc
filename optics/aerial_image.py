@@ -6,7 +6,7 @@ This file was created with AI assistance. It provides a scaffold for computing
 2D aerial images using scalar diffraction theory and FFT.
 
 Student verification required:
-1. Read docstring explaining mathematical formulation of coherent imaging
+1. mathematical formulation of coherent imaging
 2. Implement FFT-based optical simulation computation
 3. Verify against known analytical solutions (point source, uniform aperture)
 4. Test with different numerical aperture values
@@ -164,6 +164,8 @@ def compute_aerial_image(
     #     raise TypeError("mask_transmission must be numpy array")
     
     # TODO: Add remaining implementation code here...
+    
+    
     
     raise NotImplementedError(
         "Student must implement FFT-based optical imaging computation. "
