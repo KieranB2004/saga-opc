@@ -204,11 +204,11 @@ def convert_to_simulation_grid(
         
     # end here
         
-    start_col_idx = int((grid_origin_x - min_x_um) * grid_resolution_px_per_um)
-    end_col_idx = int((min(max_x_um, windowx) - grid_origin_x) * grid_resolution_px_per_um)
-    
-    start_row_idy = int((grid_origin_y - min_y_um) * grid_resolution_px_per_um)
-    end_row_idy = int((min(max_y_um, windowy) - grid_origin_y) * grid_resolution_px_per_um)
+    start_col_idx = int(np.floor((min_x_um - grid_origin_x) * grid_resolution_px_per_um))
+    end_col_idx = min(windowx, int(np.ceil((max_x_um - grid_origin_x) * grid_resolution_px_per_um)))
+
+    start_row_idy = int(np.floor((min_y_um - grid_origin_y) * grid_resolution_px_per_um))
+    end_row_idy = min(windowy, int(np.ceil((max_y_um - grid_origin_y) * grid_resolution_px_per_um)))
     
     for col in range(start_col_idx, end_col_idx):
       for row in range(start_row_idy, end_row_idy):
@@ -224,9 +224,9 @@ def convert_to_simulation_grid(
                 vertices = vertices.reshape(-1, 2)
                 
             try:
-                if GeometryPolygon(vertices).contains(Point(pixel_center_x, pixel_center_y)):
-                    output_grid[row, col] = 1.0
+              if GeometryPolygon(vertices).contains(Point(pixel_center_x, pixel_center_y)):
+                output_grid[row, col] = 1.0
             except (ValueError, TypeError):
-                continue
+              continue
     
     return output_grid

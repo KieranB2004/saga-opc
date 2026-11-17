@@ -34,8 +34,11 @@ WINDOW_SIZE = CONFIG["optics"]["window_size_xy"]
 
 
 vertices_list1 = [(10.0, 10.0), (16.0, 10.0), (16.0, 12.0), (10.0, 12.0)]
-vertices_list2 = [(10.0, -10.0), (16.0, -10.0), (16.0, 8.0), (10.0, 8.0)]
-polygons = [(np.array(vertices_list1, dtype=float), "opaque")]
+vertices_list2 = [(16.0, 22.0), (18.0, 22.0), (18.0, 10.0), (16.0, 10.0)]
+polygons = [
+    (np.array(vertices_list1, dtype=float), "opaque"),
+    (np.array(vertices_list2, dtype=float), "opaque")
+]
 
 output_grid = convert_to_simulation_grid(
     polygons = polygons,
