@@ -6,9 +6,10 @@ This file was created with AI assistance. It provides a scaffold for computing
 2D aerial images using scalar diffraction theory and FFT.
 
 Student verification required:
-1. mathematical formulation of coherent imaging
+1. verify Ai generated mathematical formulation of coherent imaging
 2. Implement FFT-based optical simulation computation
-3. Verify against known analytical solutions (point source, uniform aperture)
+3. Verify against known analytical solutions (point source, uniform aperture), check online for comparison
+to make sure it is physically accurate.
 4. Test with different numerical aperture values
 5. Understand frequency domain aliasing limitations
 
