@@ -3,7 +3,7 @@
 AI ASSISTANCE DISCLOSURE - tests/test_geometry/examples/test_pattern_result.py
 =================================================================================
 This file was created with assistance from Qwen 3.5 via OpenCode tooling for 
-testing GDS import, grid conversion, and visualization workflows in the SAGA-OPC 
+testing GDS import, grid conversion, and visualization workflows(matplotlib code done by qwen 3.5) in the SAGA-OPC 
 project.
 
 Verification tasks completed by the student engineer:
@@ -35,9 +35,13 @@ WINDOW_SIZE = CONFIG["optics"]["window_size_xy"]
 
 vertices_list1 = [(10.0, 10.0), (16.0, 10.0), (16.0, 12.0), (10.0, 12.0)]
 vertices_list2 = [(16.0, 22.0), (18.0, 22.0), (18.0, 10.0), (16.0, 10.0)]
+vertices_list3 = [(5.0, 3.0), (13.0, 3.0), (13.0, 5.0), (5.0, 5.0)]
+vertices_list4 = [(5.0, 7.0), (13.0, 7.0), (13.0, 9.0), (5.0, 9.0)]
 polygons = [
     (np.array(vertices_list1, dtype=float), "opaque"),
-    (np.array(vertices_list2, dtype=float), "opaque")
+    (np.array(vertices_list2, dtype=float), "opaque"),
+    (np.array(vertices_list3, dtype=float), "opaque"),
+    (np.array(vertices_list4, dtype=float), "opaque")
 ]
 
 output_grid = convert_to_simulation_grid(
