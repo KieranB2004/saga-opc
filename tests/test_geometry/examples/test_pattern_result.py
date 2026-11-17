@@ -49,6 +49,8 @@ output_grid = convert_to_simulation_grid(
     grid_resolution_px_per_um = PX_PER_UM
 )
 
+### AI GENERATED:
+
 num_opaque_pixels = np.sum(output_grid)
 print(f"Total opaque pixels (feature area): {num_opaque_pixels:.1f} pixels²")
 
@@ -90,3 +92,5 @@ print("\nTest pattern rendering complete!")
 print(f"  - Feature centered in grid")
 print(f"  - X and Y axes show pixel coordinates")
 print(f"  - Resolution: {PX_PER_UM} pixels per micron ({1/PX_PER_UM:.3f} µm/pixel)")
+
+### END
