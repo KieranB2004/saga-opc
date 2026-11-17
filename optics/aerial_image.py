@@ -30,9 +30,9 @@ from config.config import CONFIG
 # Engineer updated config values, AI did not use config(verification done by engineer).
 def compute_aerial_image(
     mask_transmission: np.ndarray,
-    wavelength_nm: float = CONFIG["optics"]["wavelength_nm"],
+    wavelength_um: float = CONFIG["optics"]["wavelength_um"],
     numerical_aperture: float = CONFIG["optics"]["numerical_aperture"],
-    coherence_factor_sigma: float = CONFIG["optics"]["coherence_factor_sigma"],
+    PX_PER_UM: float = CONFIG["optics"]["grid_resolution_px_per_um"]
 ) -> np.ndarray:
     """
     Compute 2D aerial image using scalar diffraction theory and FFT.
@@ -40,7 +40,7 @@ def compute_aerial_image(
     Physical model explanation (scalar coherent imaging approximation):
       
       This function implements a simplified optical imaging model for 193 nm 
-      deep ultraviolet (DUV) lithography with perfectly coherent illumination.
+      deep ultraviolet (DUV) lithography with perfectly coherent illumination (sigma = 1).
       
       Mathematical formulation:
       
@@ -93,11 +93,10 @@ def compute_aerial_image(
         fx = np.fft.fftfreq(n, d=1/px_per_um)  # cycles per micron
         fy = same as above
         
-        Where px_per_um is grid resolution from config (default 5.0)
+        Where px_per_um is grid resolution from config
         
       Step C: Compute optical cutoff frequency
         f_cutoff = NA / wavelength_in_microns
-           where wavelength_in_microns = wavelength_nm / 1000.0
         
       Step D: Create circular OTF mask in frequency domain
         freq_mag = np.sqrt(fx**2 + fy**2)
@@ -133,7 +132,7 @@ def compute_aerial_image(
                                        dtype: float [0.0 to 1.0] or bool
       wavelength_nm (float, default=0.193): DUV lithography wavelength
       numerical_aperture (float, default=0.93): Lens NA value  
-      coherence_factor_sigma (float, default=0.75): Partial coherence factor
+      coherence_factor_sigma (float, default=1): Partial coherence factor
        
     Returns:
       np.ndarray: Aerial image intensity distribution
@@ -167,9 +166,20 @@ def compute_aerial_image(
     
     # TODO: Add remaining implementation code here...
     
+    MASK_DESIGN = mask_transmission
     
+    # code ideas taken from https://numpy.org/doc/2.1/reference/generated/numpy.fft.fftfreq.html
     
-    raise NotImplementedError(
-        "Student must implement FFT-based optical imaging computation. "
-        "See docstring for complete mathematical formulation and implementation steps."
-    )
+    fx = np.fft.fftfreq(MASK_DESIGN.shape[0], d = 1 / PX_PER_UM)
+    fy = np.fft.fftfreq(MASK_DESIGN.shape[1], d = 1 / PX_PER_UM)
+    freq_mag = np.sqrt(fx**2 + fy**2)
+    f_cutoff = numerical_aperture / wavelength_um
+    otf_mask = (freq_mag <= f_cutoff)
+    otf_mask_shift = np.fft.fftshift(otf_mask)
+    F_T = fftpack.fft2(mask_transmission)
+    F_T_shift = np.fft.fftshift(F_T)
+    filtered_field = F_T_shift * otf_mask_shift
+    aerial_image_field = fftpack.ifft2(filtered_field)
+    aerial_image_intensity = np.abs(aerial_image_field)**2
+    
+    return aerial_image_intensity
