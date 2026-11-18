@@ -10,7 +10,6 @@ Student verification required:
 2. Implement function to read .gds binary format using gdstk or custom parser
 3. Test with sample .gds file provided in tests/ directory
 4. Verify parsed features match expected dimensions in simulation grid
-5. Handle edge cases: empty layers, corrupted files, unsupported layer types
 
 Date created: 2026-11-11
 Student tasks marked with TODO-import-gds-parsing and [STUDENT-VERIFY] notes

@@ -9,8 +9,7 @@ Student verification required:
 1. Read docstring explaining input data structure
 2. Implement conversion from dictionary feature specs to polygon vertices
 3. Ensure correct vertex ordering (consistent clockwise or counter-clockwise)
-4. Handle edge cases: empty feature list, malformed coordinates
-5. Test with known output and compare against expected results
+4. Test with known output and compare against expected results
 
 Date created: 2026-11-11
 Student tasks marked with TODO-export-mask-conversion and [STUDENT-VERIFY] notes
@@ -102,7 +101,6 @@ def export_mask_as_polygons(mask_data: Dict) -> List[Tuple[np.ndarray, str]]:
     
     # Initialize empty list to collect polygon results
   
-    
     # TODO: Extract features from mask_data dictionary
     # if "features" in mask_data:
     #     feature_list = mask_data["features"]
@@ -116,7 +114,7 @@ def export_mask_as_polygons(mask_data: Dict) -> List[Tuple[np.ndarray, str]]:
     
     polygons = []
     
-    
+
     
     
 

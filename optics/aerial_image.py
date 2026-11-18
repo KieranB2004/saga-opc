@@ -176,7 +176,7 @@ def compute_aerial_image(
     freq_mag = np.sqrt(FX**2 + FY**2)
     f_cutoff = numerical_aperture / wavelength_um
     otf_mask = (freq_mag <= f_cutoff)
-    F_T = fftpack.fft2(mask_transmission)
+    F_T = np.fft.fft2(mask_transmission)
     filtered_field = F_T * otf_mask
     aerial_image_field = np.fft.ifft2(filtered_field)
     aerial_image_intensity = np.abs(aerial_image_field)**2
