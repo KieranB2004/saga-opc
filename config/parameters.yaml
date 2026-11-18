@@ -29,8 +29,8 @@ optics:
   numerical_aperture: 0.93
   coherence_factor_sigma: 1
   # ENGINEERING NOTE: these parameters below were found to be best for expected result modelling(near realtime)
-  grid_resolution_px_per_um: 150
-  window_size_xy: 192
+  grid_resolution_px_per_um: 100
+  window_size_xy: 128
 
 # ================================================================================
 # Error Metrics and Success Criteria
