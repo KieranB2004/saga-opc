@@ -28,6 +28,7 @@ optics:
   wavelength_um: 0.193
   numerical_aperture: 0.93
   coherence_factor_sigma: 1
+  # ENGINEERING NOTE: these parameters below were found to be best for expected result modelling
   grid_resolution_px_per_um: 400
   window_size_xy: 512
 
