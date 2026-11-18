@@ -29,7 +29,7 @@ optics:
   numerical_aperture: 0.93
   coherence_factor_sigma: 1
   grid_resolution_px_per_um: 400
-  window_size_xy: 1024
+  window_size_xy: 512
 
 # ================================================================================
 # Error Metrics and Success Criteria
@@ -44,7 +44,7 @@ metrics:
 # ================================================================================
 
 printing:
-  default_intensity_threshold: 0.5 # Global intensity threshold for resist model [0,1]
+  default_intensity_threshold: 0.3 # Global intensity threshold for resist model [0,1]
   threshold_unitless: true         # Threshold is normalized relative to max intensity
 
 # ================================================================================
