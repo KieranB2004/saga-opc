@@ -172,14 +172,13 @@ def compute_aerial_image(
     
     fx = np.fft.fftfreq(MASK_DESIGN.shape[0], d = 1 / PX_PER_UM)
     fy = np.fft.fftfreq(MASK_DESIGN.shape[1], d = 1 / PX_PER_UM)
-    freq_mag = np.sqrt(fx**2 + fy**2)
+    FX, FY = np.meshgrid(fx, fy)
+    freq_mag = np.sqrt(FX**2 + FY**2)
     f_cutoff = numerical_aperture / wavelength_um
     otf_mask = (freq_mag <= f_cutoff)
-    otf_mask_shift = np.fft.fftshift(otf_mask)
     F_T = fftpack.fft2(mask_transmission)
-    F_T_shift = np.fft.fftshift(F_T)
-    filtered_field = F_T_shift * otf_mask_shift
-    aerial_image_field = fftpack.ifft2(filtered_field)
+    filtered_field = F_T * otf_mask
+    aerial_image_field = np.fft.ifft2(filtered_field)
     aerial_image_intensity = np.abs(aerial_image_field)**2
     
     return aerial_image_intensity

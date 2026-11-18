@@ -9,8 +9,7 @@ Student verification required:
 1. Read docstring explaining physical meaning of px_per_um parameter
 2. Implement polygon-to-grid rasterization algorithm
 3. Test with simple rectangular features and verify pixel coverage
-4. Handle edge cases: polygon outside grid bounds, partially covered polygons
-5. Verify output grid matches expected dimensions
+4. Verify output grid matches expected dimensions
 
 Date created: 2026-11-11
 Student tasks marked with TODO-grid-rasterization and [STUDENT-VERIFY] notes
@@ -30,7 +29,7 @@ from shapely.geometry import Point
 
 def convert_to_simulation_grid(
     polygons: List[Tuple[np.ndarray, str]], 
-    grid_resolution_px_per_um: float = 200.0,
+    grid_resolution_px_per_um: float = CONFIG["optics"]["grid_resolution_px_per_um"],
 ) -> np.ndarray:
     """
     Convert geometric polygons to simulation grid representation.

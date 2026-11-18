@@ -25,11 +25,11 @@ surrogate:
 # ================================================================================
 
 optics:
-  wavelength_um: 0.193             # 193 nm DUV lithography wavelength
-  numerical_aperture: 0.93         # Numerical aperture NA = 0.93 (fixed for initial)
-  coherence_factor_sigma: 1     # Partial coherence factor σ = 1
-  grid_resolution_px_per_um: 20
-  window_size_xy: 512             # window size for optics
+  wavelength_um: 0.193
+  numerical_aperture: 0.93
+  coherence_factor_sigma: 1
+  grid_resolution_px_per_um: 400
+  window_size_xy: 1024
 
 # ================================================================================
 # Error Metrics and Success Criteria
