@@ -74,7 +74,7 @@ for poly_points, _ in polygons:
     ax.plot(poly.exterior.xy[0], poly.exterior.xy[1], 'k-', linewidth=4, linestyle='solid')
     
 ax.set_title('fft')
-step = 12
+step = 16
 ax.set_xticks(range(0, WINDOW_SIZE, step))
 ax.set_yticks(range(0, WINDOW_SIZE, step))
 
