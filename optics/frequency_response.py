@@ -62,7 +62,7 @@ def get_frequency_response(
       
     Parameters:
       numerical_aperture (float, default=0.93): Lens NA value  
-      coherence_factor_sigma (float, default=0.75): Partial coherence factor
+      coherence_factor_sigma (float, default=1): Partial coherence factor
       wavelength_nm (float, default=0.193): DUV exposure wavelength in nm
       
     Returns:

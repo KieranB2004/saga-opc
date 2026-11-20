@@ -19,6 +19,7 @@ Date created: 2026-11-11
 import numpy as np
 from typing import Callable, List, Tuple
 from scipy.optimize import minimize
+from config.config import CONFIG
 
 
 # ================================================================================
@@ -130,8 +131,8 @@ class GeneticAlgorithmOptimizer:
     
     def __init__(
         self, 
-        population_size: int = 15,
-        max_generations: int = 30,
+        population_size: int = CONFIG["optimization"]["population_size"],
+        max_generations: int =  CONFIG["optimization"]["max_generations"],
         seed: int | None = None
     ):
         # TODO-ga-initialization-code

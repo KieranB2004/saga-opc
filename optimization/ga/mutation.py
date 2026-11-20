@@ -17,7 +17,7 @@ Date created: 2026-11-11
 """
 
 import numpy as np
-
+from config.config import CONFIG
 
 # ================================================================================
 # FUNCTION: mutation_apply
@@ -25,8 +25,8 @@ import numpy as np
 
 def mutation_apply(
     population: np.ndarray,  
-    mutation_rate: float = 0.1,
-    mutation_strength: float = 0.05,
+    mutation_rate: float = CONFIG["optimization"]["mutation_rate"],
+    mutation_strength: float = CONFIG["optimization"]["mutation_strength"],
 ) -> np.ndarray:
     """
     Apply random mutations to maintain/exceed expected population size.

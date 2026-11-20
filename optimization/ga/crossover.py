@@ -17,6 +17,7 @@ Date created: 2026-11-11
 """
 
 import numpy as np
+from config.config import CONFIG
 
 
 # ================================================================================
@@ -25,7 +26,7 @@ import numpy as np
 
 def crossover_select(
     parents: np.ndarray, 
-    expected_children: int = 9,
+    expected_children: int = CONFIG["optimization"][children_from_crossover],
 ) -> np.ndarray:
     """
     Select top-performing parents and generate children via crossover.
