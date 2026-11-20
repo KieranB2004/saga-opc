@@ -75,12 +75,6 @@ def crossover_select(
       >>> children = crossover_select(parents=dummy_parents, expected_children=expected_children)
       >>> print(len(children))
     """
-    # parent array list and number of expected children
-    parents = parents
-    expected_children = expected_children
-    crossover_parent_count = CONFIG["optimiziation"]["crossover_parent_count"]
-    spatial_dimensions = CONFIG["optimiziation"]["spatial_dimensions"]
-    # parents initialized to noise
-    if not parents:
-      parents = np.random.rand(crossover_parent_count, spatial_dimensions, spatial_dimensions)
+
+    pass
     

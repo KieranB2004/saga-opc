@@ -18,6 +18,7 @@ Date created: 2026-11-11
 
 import numpy as np
 from typing import List, Tuple
+from config.config import CONFIG
 
 
 # ================================================================================
@@ -63,4 +64,8 @@ def initialize_population(shape: Tuple[int, int], n_individuals: int) -> np.ndar
       >>> print(f"Population size: {len(pop)}")  # Should print 15
     """
     
-    pass  # Student implementation here
+    # Parents initilized to noise
+    p_value = 0.5
+    parent = np.random.choice([0,1], size = (n_individuals, *shape), p = [p_value, 1 - p_value])
+    
+    return parent
