@@ -26,7 +26,7 @@ from config.config import CONFIG
 
 def crossover_select(
     parents: np.ndarray, 
-    expected_children: int = CONFIG["optimization"][children_from_crossover],
+    expected_children: int = CONFIG["optimization"]["children_from_crossover"],
 ) -> np.ndarray:
     """
     Select top-performing parents and generate children via crossover.
@@ -57,7 +57,7 @@ def crossover_select(
     Parameters:
       parents (np.ndarray): Array of parent chromosomes
                             shape: (parent_count, *spatial_dimensions)
-      expected_children (int, default=9): Number of children to produce
+      expected_children (int, default): Number of children to produce
       
     Returns:
       np.ndarray: Children array with shape (expected_children, *shape)
@@ -72,8 +72,15 @@ def crossover_select(
     
     Example after implementation complete:
       >>> dummy_parents = np.random.rand(6, 10, 10)
-      >>> children = crossover_select(parents=dummy_parents, expected_children=9)
-      >>> print(len(children))  # Should print 9
+      >>> children = crossover_select(parents=dummy_parents, expected_children=expected_children)
+      >>> print(len(children))
     """
+    # parent array list and number of expected children
+    parents = parents
+    expected_children = expected_children
+    crossover_parent_count = CONFIG["optimiziation"]["crossover_parent_count"]
+    spatial_dimensions = CONFIG["optimiziation"]["spatial_dimensions"]
+    # parents initialized to noise
+    if not parents:
+      parents = np.random.rand(crossover_parent_count, spatial_dimensions, spatial_dimensions)
     
-    pass  # Student implementation here

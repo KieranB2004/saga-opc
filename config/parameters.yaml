@@ -10,6 +10,7 @@ optimization:
   mutation_rate: 0.1
   mutation_strength: 0.05
   max_generations: 30
+  spatial_dimensions: [10, 10]  # width, height in grid units
   
 # ================================================================================
 # Gaussian Process Surrogate Model Settings
