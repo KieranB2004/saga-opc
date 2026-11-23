@@ -19,13 +19,14 @@ Date created: 2026-11-11
 import numpy as np
 from typing import List, Tuple
 from config.config import CONFIG
+from geometry.mask_definition import mask_definition
 
 
 # ================================================================================
 # FUNCTION: initialize_population
 # ================================================================================
 
-def initialize_population(shape: Tuple[int, int], n_individuals: int, mask: np.ndarray) -> np.ndarray:
+def initialize_population(shape: Tuple[int, int], n_individuals: int) -> np.ndarray:
     """
     Initialize GA population with randomly generated mask configurations.
     
@@ -64,8 +65,8 @@ def initialize_population(shape: Tuple[int, int], n_individuals: int, mask: np.n
       >>> print(f"Population size: {len(pop)}")  # Should print 15
     """
     
-    # Parents initilized to noise
-    p_value = 0.5
-    parent = np.random.choice([0,1], size = (n_individuals, *shape), p = [p_value, 1 - p_value])
+    polygons = mask_definition()
+    
+    parent = polygons[0]
     
     return np.array([parent])
