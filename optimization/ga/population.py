@@ -25,7 +25,7 @@ from config.config import CONFIG
 # FUNCTION: initialize_population
 # ================================================================================
 
-def initialize_population(shape: Tuple[int, int], n_individuals: int) -> np.ndarray:
+def initialize_population(shape: Tuple[int, int], n_individuals: int, mask: np.ndarray) -> np.ndarray:
     """
     Initialize GA population with randomly generated mask configurations.
     
