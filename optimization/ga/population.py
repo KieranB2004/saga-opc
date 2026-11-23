@@ -67,6 +67,6 @@ def initialize_population(shape: Tuple[int, int], n_individuals: int) -> np.ndar
     
     polygons = mask_definition()
     
-    parent = polygons[0]
+    parent = polygons[0].flatten()
     
     return np.array([parent])
