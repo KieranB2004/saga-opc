@@ -18,6 +18,7 @@ Date created: 2026-11-11
 
 import numpy as np
 from config.config import CONFIG
+import random
 
 # ================================================================================
 # FUNCTION: mutation_apply
@@ -25,8 +26,7 @@ from config.config import CONFIG
 
 def mutation_apply(
     population: np.ndarray,  
-    mutation_rate: float = CONFIG["optimization"]["mutation_rate"],
-    mutation_strength: float = CONFIG["optimization"]["mutation_strength"],
+    mutation_rate: float = CONFIG["optimization"]["mutation_rate"]
 ) -> np.ndarray:
     """
     Apply random mutations to maintain/exceed expected population size.
@@ -37,7 +37,8 @@ def mutation_apply(
         mutation_rate: Probability that a given feature/location is mutated
           Lower value = less variation introduced (exploitation)
           Higher value = more exploration in search space
-          
+        
+        NOTE: not used for implementation
         mutation_strength: Magnitude of random perturbation applied
           For position changes: ±strength * current_feature_size  
           For dimension changes: Random offset within [-strength, +strength]
@@ -54,8 +55,8 @@ def mutation_apply(
         
         Strategy 3: Grid cell flip (for rasterized representation)
           - Flip value at random grid location (0→1 or 1→0)
-          
-      For OPC with rectangular features, Strategy 2 is most intuitive.
+
+          #Engineer NOTE: Strategy 3 shall be implemented
       
     TODO-mutation-verify-size-preservation:
       
@@ -66,11 +67,13 @@ def mutation_apply(
       population (np.ndarray): Array of individuals to mutate
                                shape: (pop_size, *shape_dimensions)
       mutation_rate (float, default=0.1): Probability element is mutated
+      NOTE: not used for implementation
       mutation_strength (float, default=0.05): Magnitude of random perturbation
       
     Returns:
       np.ndarray: Mutated population with same dimensions as input
     
+    NOTE: Error handling not done
     TODO-mutation-error-handling-code:
       
       Add error handling for edge cases:
@@ -85,5 +88,19 @@ def mutation_apply(
       
     Implementation after TODO marker below...
     """
+    # population is list of current parents + new children
+    population_mutate = population.copy()
     
-    pass  # Student implementation here
+    flat_population_mutate = population_mutate.ravel()
+    
+    flat_population_mutate_size = len(flat_population_mutate)
+    n_flips = int(mutation_rate * flat_population_mutate_size)
+    
+    if n_flips > 0:
+        # selecting random bit positions to flip
+        flip_indices = np.random.choice(flat_population_mutate_size, size = n_flips, replace = False)
+        
+        # flipping bits using NumPy boolean indexing
+        population_mutate.flat[flip_indices] = 1 - population_mutate.flat[flip_indices]
+    
+    return population_mutate
