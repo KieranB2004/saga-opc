@@ -76,5 +76,23 @@ def crossover_select(
       >>> print(len(children))
     """
 
-    pass
+    child = []
+    num_parents = parents.shape[0]
+    parent_shape = parents.shape[1:]
+    parent_idx_a = np.random.randint(0, num_parents)
+    parent_idx_b = np.random.randint(0, num_parents)
+    mask = np.random.rand(*parent_shape) > 0.5
+    child = np.where(mask, parents[parent_idx_a], parents[parent_idx_b])
+    
+    children = []
+    for _ in range(expected_children):
+        parent_idx_a = np.random.randint(0, num_parents)
+        parent_idx_b = np.random.randint(0, num_parents)
+        mask = np.random.rand(*parent_shape) > 0.5
+        child = np.where(mask, parents[parent_idx_a], parents[parent_idx_b])
+        children.append(child)
+    return np.array(children)
+        
+    
+    
     

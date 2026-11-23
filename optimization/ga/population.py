@@ -68,4 +68,4 @@ def initialize_population(shape: Tuple[int, int], n_individuals: int) -> np.ndar
     p_value = 0.5
     parent = np.random.choice([0,1], size = (n_individuals, *shape), p = [p_value, 1 - p_value])
     
-    return parent
+    return np.array([parent])
