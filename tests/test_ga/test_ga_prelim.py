@@ -90,18 +90,20 @@ im0 = axes[0].imshow(
     cmap="Blues",
     origin="upper",
     vmin=0,
-    vmax=1
+    vmax=1,
+    interpolation="nearest"
 )
 
 axes[0].set_title("Initial Mask Pattern")
 
-# Display the developed pattern produced by the initial mask.
+# Display the developed pattern produced by the original mask.
 im1 = axes[1].imshow(
     developed_mask,
     cmap="Blues",
     origin="upper",
     vmin=0,
-    vmax=1
+    vmax=1,
+    interpolation="nearest"
 )
 
 axes[1].set_title("Initial Developed Pattern")
@@ -112,7 +114,8 @@ im2 = axes[2].imshow(
     cmap="Blues",
     origin="upper",
     vmin=0,
-    vmax=1
+    vmax=1,
+    interpolation="nearest"
 )
 
 axes[2].set_title("Optimized Mask Pattern")
@@ -123,7 +126,8 @@ im3 = axes[3].imshow(
     cmap="Blues",
     origin="upper",
     vmin=0,
-    vmax=1
+    vmax=1,
+    interpolation="nearest"
 )
 
 axes[3].set_title("Optimized Developed Pattern")
@@ -149,7 +153,7 @@ fig.suptitle(
 )
 
 # Adjust spacing between the four visualizations.
-plt.tight_layout()
+plt.tight_layout(rect=[0, 0, 1, 0.92])
 
 # Display the figure without blocking the genetic algorithm.
 plt.show(block=False)
@@ -258,6 +262,16 @@ final_error = np.sum(
 
 print(f"Final pixel error: {final_error}")
 
+# Print the numerical ranges of the final visualization arrays.
+print("\n--- FINAL VISUALIZATION DIAGNOSTICS ---")
+print("Initial mask:", np.unique(output_grid))
+print("Initial developed pattern:", np.unique(developed_mask))
+print("Optimized mask:", np.unique(best_mask))
+print("Optimized developed pattern:", np.unique(optimized_developed_mask))
+print("Initial mask occupied pixels:", np.sum(output_grid))
+print("Optimized mask occupied pixels:", np.sum(best_mask))
+print("---------------------------------------\n")
+
 # Update the visualization with the final optimization results.
 update_plot(
     MAX_GEN,
@@ -266,14 +280,21 @@ update_plot(
     best_aerial_image
 )
 
+# Force the final figure to render before saving.
+fig.canvas.draw()
+
+# Define the output path for the comparison figure.
+output_path = PROJECT_ROOT / "ga_pattern_comparison.png"
+
 # Save the complete comparison figure.
-plt.savefig(
-    "ga_pattern_comparison.png",
+fig.savefig(
+    output_path,
     dpi=300,
-    bbox_inches="tight"
+    bbox_inches="tight",
+    facecolor="white"
 )
 
-print("Comparison figure saved to 'ga_pattern_comparison.png'")
+print(f"Comparison figure saved to '{output_path}'")
 
 # Keep the final figure open after optimization completes.
 plt.ioff()

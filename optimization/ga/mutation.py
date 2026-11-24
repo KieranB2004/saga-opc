@@ -1,3 +1,4 @@
+
 """
 =================================================================================
 AI ASSISTANCE DISCLOSURE - optimization/ga/mutation.py  
@@ -18,6 +19,10 @@ Date created: 2026-11-11
 
 import numpy as np
 from config.config import CONFIG
+import numpy as np
+from scipy.ndimage import binary_dilation
+from config.config import CONFIG
+import random
 import random
 
 # ================================================================================
@@ -25,8 +30,10 @@ import random
 # ================================================================================
 
 def mutation_apply(
-    population: np.ndarray,  
-    mutation_rate: float = CONFIG["optimization"]["mutation_rate"]
+    population: np.ndarray,
+    mutation_rate: float = CONFIG["optimization"]["mutation_rate"],
+    margin: int = 5,
+    reference_mask: np.ndarray = None
 ) -> np.ndarray:
     """
     Apply random mutations to maintain/exceed expected population size.
@@ -64,43 +71,88 @@ def mutation_apply(
       comes from input parameter or configuration
       
     Parameters:
-      population (np.ndarray): Array of individuals to mutate
+      population (np.ndarray): Array of individuals
                                shape: (pop_size, *shape_dimensions)
       mutation_rate (float, default=0.1): Probability element is mutated
-      NOTE: not used for implementation
-      mutation_strength (float, default=0.05): Magnitude of random perturbation
+      margin (int, default=10): Pixels added around the original mask boundaries
       
     Returns:
       np.ndarray: Mutated population with same dimensions as input
-    
-    NOTE: Error handling not done
-    TODO-mutation-error-handling-code:
-      
-      Add error handling for edge cases:
-        - mutation_rate outside [0, 1] range
-        - Negative mutation_strength  
-        - Empty or malformed input array
-    
-    Example after implementation complete:
-      >>> pop_before = np.random.rand(15, 10, 10)
-      >>> mutated = mutation_apply(population=pop_before)
-      >>> print(len(mutated))  # Should print 15 (same as input)
-      
-    Implementation after TODO marker below...
     """
-    # population is list of current parents + new children
+
+    # Convert the input population into a NumPy array.
+    population = np.asarray(population)
+
+    # Verify that the population has three dimensions.
+    if population.ndim != 3:
+        raise ValueError(
+            "Population must have dimensions (population, rows, columns)."
+        )
+
+    # Verify that the population is not empty.
+    if population.shape[0] == 0:
+        raise ValueError("Population cannot be empty.")
+
+    # Verify that the population contains spatial dimensions.
+    if population.shape[1] == 0 or population.shape[2] == 0:
+        raise ValueError("Population spatial dimensions cannot be empty.")
+
+    # Verify that the mutation rate is within the valid range.
+    if not 0.0 <= mutation_rate <= 1.0:
+        raise ValueError("Mutation rate must be between 0 and 1.")
+
+    # Verify that the mutation margin is non-negative.
+    if not isinstance(margin, (int, np.integer)) or margin < 0:
+        raise ValueError("Mutation margin must be a non-negative integer.")
+
+    # Require the original mask to define the mutation region.
+    if reference_mask is None:
+        raise ValueError("An original reference mask must be provided.")
+
+    # Convert the reference mask into a binary array.
+    reference_mask = np.asarray(reference_mask) == 1
+
+    # Verify that the reference mask has matching spatial dimensions.
+    if reference_mask.shape != population.shape[1:]:
+        raise ValueError(
+            "Reference mask dimensions must match population dimensions."
+        )
+
+    # Verify that the reference mask contains occupied pixels.
+    if not np.any(reference_mask):
+        raise ValueError("The reference mask contains no occupied pixels.")
+
+    # Verify that the population contains binary values.
+    if not np.all(np.isin(population, [0, 1])):
+        raise ValueError("Population must contain only binary values (0 and 1).")
+
+    # Copy the population to preserve the original input.
     population_mutate = population.copy()
-    
-    flat_population_mutate = population_mutate.ravel()
-    
-    flat_population_mutate_size = len(flat_population_mutate)
-    n_flips = int(mutation_rate * flat_population_mutate_size)
-    
-    if n_flips > 0:
-        # selecting random bit positions to flip
-        flip_indices = np.random.choice(flat_population_mutate_size, size = n_flips, replace = False)
-        
-        # flipping bits using NumPy boolean indexing
-        population_mutate.flat[flip_indices] = 1 - population_mutate.flat[flip_indices]
-    
+
+    # Create a square neighbourhood around every occupied mask pixel.
+    mutation_structure = np.ones(
+        (2 * margin + 1, 2 * margin + 1),
+        dtype=bool
+    )
+
+    # Expand the original mask by the specified mutation margin.
+    mutation_allowed = binary_dilation(
+        reference_mask,
+        structure=mutation_structure
+    )
+
+    # Generate independent mutation decisions for every population member.
+    mutation_decisions = (
+        np.random.random(population.shape) < mutation_rate
+    )
+
+    # Restrict mutation decisions to the permitted spatial region.
+    mutation_decisions &= mutation_allowed[np.newaxis, :, :]
+
+    # Flip the selected binary pixel values.
+    population_mutate[mutation_decisions] = (
+        1 - population_mutate[mutation_decisions]
+    )
+
+    # Return the mutated population with its original dimensions.
     return population_mutate

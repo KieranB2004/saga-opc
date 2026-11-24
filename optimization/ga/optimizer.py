@@ -181,6 +181,15 @@ class GeneticAlgorithmOptimizer:
                 f"configured dimensions {tuple(self.shape)}."
             )
 
+        # Calculate the expected number of retained parents.
+        expected_parents = self.population_size - self.expected_children
+
+        # Verify that the expected parent count is positive.
+        if expected_parents <= 0:
+            raise ValueError(
+                "Expected children must be smaller than population size."
+            )
+
         # Initialize the population using the original rasterized mask.
         current_population = initialize_population(
             initial_mask,
@@ -215,19 +224,36 @@ class GeneticAlgorithmOptimizer:
                 target_pattern
             )
 
+            # Verify that selection returned the expected number of parents.
+            if len(selected) != expected_parents:
+                raise RuntimeError(
+                    f"Selected {len(selected)} parents. "
+                    f"Expected {expected_parents}."
+                )
+
             # Generate new individuals through crossover.
             children = crossover_select(
                 selected,
                 self.expected_children
             )
 
-            # Apply mutation to the newly generated individuals.
-            mutated = mutation_apply(children)
+            # Verify that crossover produced the expected number of children.
+            if len(children) != self.expected_children:
+                raise RuntimeError(
+                    f"Generated {len(children)} children. "
+                    f"Expected {self.expected_children}."
+                )
 
-            # Verify that crossover and mutation produced the expected number of children.
+            # Apply mutations within the permitted region around the original mask.
+            mutated = mutation_apply(
+                children,
+                reference_mask=initial_mask
+            )
+
+            # Verify that mutation preserved the expected number of children.
             if len(mutated) != self.expected_children:
                 raise RuntimeError(
-                    f"Generated {len(mutated)} children. "
+                    f"Generated {len(mutated)} mutated children. "
                     f"Expected {self.expected_children}."
                 )
 
