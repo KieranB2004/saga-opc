@@ -7,9 +7,9 @@ GeneticAlgorithmOptimizer class that orchestrates OPC mask pattern evolution.
 
 Student verification required:
 1. Read docstring explaining GA mathematical formulation and operators
-2. Implement population initialization with configurable size (default 15)
+2. Implement population initialization with configurable size
 3. Implement selection, crossover, mutation operators
-4. Verify crossover produces exactly 9 children from top-6 parents
+4. Verify crossover produces exactly n children from top-m parents
 5. Test optimization loop terminates within max_generations limit
 
 Date created: 2026-11-11
@@ -20,6 +20,12 @@ import numpy as np
 from typing import Callable, List, Tuple
 from scipy.optimize import minimize
 from config.config import CONFIG
+from optimization.ga.population import initialize_population
+from optimization.ga.selection import selection
+from optimization.ga.mutation import mutation_apply
+from optimization.ga.fitness import fitness
+from optimization.ga.crossover import crossover_select
+from geometry.mask_definition import mask_definition
 
 
 # ================================================================================
@@ -69,9 +75,6 @@ class GeneticAlgorithmOptimizer:
     TODO-ga-population-initialization: 
       Implement initialization of population_size mask chromosomes
       
-      Should generate random initial configurations or use heuristic seeds?
-      For OPC, random rectangle placements may be simplest start point.
-      
     TODO-ga-selection-implementation:
       Implement selection to pick top k individuals based on fitness ranking
       
@@ -90,7 +93,6 @@ class GeneticAlgorithmOptimizer:
         - Combine into children preserving geometric validity  
         - Or inherit all features from one parent (no crossover, just selection)
         
-      After selecting top-6 parents, generate 9 children via combination.
       
     TODO-ga-mutation-implementation: 
       Implement mutation operation
@@ -133,11 +135,15 @@ class GeneticAlgorithmOptimizer:
         self, 
         population_size: int = CONFIG["optimization"]["population_size"],
         max_generations: int =  CONFIG["optimization"]["max_generations"],
-        seed: int | None = None
+        seed: int = CONFIG["experiment"]["random_seed"],
+        shape: Tuple[int, int] = CONFIG["optimization"]["spatial_dimensions"],
+        expected_children: int = CONFIG["optimization"]["children_from_crossover"]
     ):
-        # TODO-ga-initialization-code
-        
-        pass  # Student implementation here
+        self.population_size = population_size
+        self.shape = shape
+        self.max_generations = max_generations
+        self.expected_children = expected_children
+        self.seed = seed
     
     def optimize(
         self,
@@ -145,6 +151,10 @@ class GeneticAlgorithmOptimizer:
         feature_bounds: Tuple[float, float] = (0.0, 1.0),
     ):
         """Run optimization loop until termination criteria met."""
-        # TODO-ga-evolutionary-loop-implementation
-        
-        pass  # Student implementation here
+        initial_population = initialize_population(self.shape, self.population_size)
+        mask = mask_definition()
+        for i in range(self.max_generations):
+          selection = selection(initial_population, mask)
+          crossover = crossover_select(selection, self.expected_children)
+          mutation = mutation_apply(crossover)
+          initial_population = mutation
