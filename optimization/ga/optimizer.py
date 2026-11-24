@@ -17,15 +17,14 @@ Date created: 2026-11-11
 """
 
 import numpy as np
-from typing import Callable, List, Tuple
-from scipy.optimize import minimize
+from typing import Callable, Tuple
 from config.config import CONFIG
 from optimization.ga.population import initialize_population
 from optimization.ga.selection import selection
 from optimization.ga.mutation import mutation_apply
 from optimization.ga.fitness import fitness
 from optimization.ga.crossover import crossover_select
-from geometry.mask_definition import mask_definition
+from optics.aerial_image import compute_aerial_image
 
 
 # ================================================================================
@@ -132,31 +131,158 @@ class GeneticAlgorithmOptimizer:
     """
     
     def __init__(
-        self, 
+        self,
         population_size: int = CONFIG["optimization"]["population_size"],
-        max_generations: int =  CONFIG["optimization"]["max_generations"],
+        max_generations: int = CONFIG["optimization"]["max_generations"],
         seed: int = CONFIG["experiment"]["random_seed"],
         shape: Tuple[int, int] = CONFIG["optimization"]["spatial_dimensions"],
         expected_children: int = CONFIG["optimization"]["children_from_crossover"]
     ):
+
+        # Store the genetic algorithm configuration.
         self.population_size = population_size
         self.shape = shape
         self.max_generations = max_generations
         self.expected_children = expected_children
         self.seed = seed
-        self.mask = mask_definition()
-    
+
+        # Set the random seed for reproducible optimization experiments.
+        np.random.seed(self.seed)
+
     def optimize(
         self,
         objective_function: Callable,
-    ):
-        current_population = initialize_population(self.shape, self.population_size)
-        
-        for i in range(self.max_generations):
-            selected = selection(current_population, self.mask)
-            children = crossover_select(selected, self.expected_children)
+        target_pattern: np.ndarray,
+        initial_mask: np.ndarray,
+        progress_callback: Callable | None = None
+    ) -> np.ndarray:
+
+        # Convert the target pattern and initial mask into NumPy arrays.
+        target_pattern = np.asarray(target_pattern, dtype=float)
+        initial_mask = np.asarray(initial_mask, dtype=float)
+
+        # Verify that both inputs are two-dimensional arrays.
+        if target_pattern.ndim != 2 or initial_mask.ndim != 2:
+            raise ValueError(
+                "Target pattern and initial mask must both be 2D arrays."
+            )
+
+        # Verify that the initial mask and target pattern have matching dimensions.
+        if initial_mask.shape != target_pattern.shape:
+            raise ValueError(
+                f"Initial mask shape {initial_mask.shape} does not match "
+                f"target pattern shape {target_pattern.shape}."
+            )
+
+        # Verify that the initial mask matches the configured dimensions.
+        if initial_mask.shape != tuple(self.shape):
+            raise ValueError(
+                f"Initial mask shape {initial_mask.shape} does not match "
+                f"configured dimensions {tuple(self.shape)}."
+            )
+
+        # Initialize the population using the original rasterized mask.
+        current_population = initialize_population(
+            initial_mask,
+            self.population_size
+        )
+
+        # Verify that the initial population has the expected size.
+        if len(current_population) != self.population_size:
+            raise RuntimeError(
+                f"Initial population size is {len(current_population)}. "
+                f"Expected {self.population_size}."
+            )
+
+        # Initialize the best solution using the original mask.
+        best_solution = initial_mask.copy()
+
+        # Calculate the aerial image produced by the initial mask.
+        best_aerial_image = compute_aerial_image(best_solution)
+
+        # Evaluate the initial mask against the desired geometric pattern.
+        best_fitness = fitness(
+            target_pattern,
+            best_aerial_image
+        )
+
+        # Execute the genetic algorithm for the configured number of generations.
+        for generation in range(self.max_generations):
+
+            # Select the highest-performing individuals from the current population.
+            selected = selection(
+                current_population,
+                target_pattern
+            )
+
+            # Generate new individuals through crossover.
+            children = crossover_select(
+                selected,
+                self.expected_children
+            )
+
+            # Apply mutation to the newly generated individuals.
             mutated = mutation_apply(children)
-            current_population = mutated
-        
-        best_solution = current_population[0]
+
+            # Verify that crossover and mutation produced the expected number of children.
+            if len(mutated) != self.expected_children:
+                raise RuntimeError(
+                    f"Generated {len(mutated)} children. "
+                    f"Expected {self.expected_children}."
+                )
+
+            # Evaluate the fitness of each mutated individual.
+            for individual_index, individual in enumerate(mutated):
+
+                # Calculate the aerial image produced by the candidate mask.
+                aerial_image = compute_aerial_image(individual)
+
+                # Calculate the candidate's fitness against the desired pattern.
+                score = fitness(
+                    target_pattern,
+                    aerial_image
+                )
+
+                # Update the best solution if the candidate has lower error.
+                if score < best_fitness:
+                    best_fitness = score
+                    best_solution = individual.copy()
+                    best_aerial_image = aerial_image.copy()
+
+                # Update the live visualization every 10 evaluated children.
+                if progress_callback is not None and (
+                    (individual_index + 1) % 10 == 0
+                    or individual_index == len(mutated) - 1
+                ):
+
+                    # Send the current best solution and its aerial image to the callback.
+                    progress_callback(
+                        generation + 1,
+                        best_solution,
+                        best_fitness,
+                        best_aerial_image,
+                        individual_index + 1,
+                        len(mutated)
+                    )
+
+            # Combine selected parents and mutated children into the next generation.
+            current_population = np.concatenate(
+                (selected, mutated),
+                axis=0
+            )
+
+            # Verify that the population size remains constant.
+            if len(current_population) != self.population_size:
+                raise RuntimeError(
+                    f"Population size changed to {len(current_population)}. "
+                    f"Expected {self.population_size}."
+                )
+
+            # Report the best fitness achieved in the current generation.
+            print(
+                f"Generation {generation + 1}/{self.max_generations} | "
+                f"Best MSE: {best_fitness:.8e}"
+            )
+
+        # Return the best-performing mask found during optimization.
         return best_solution

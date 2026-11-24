@@ -4,13 +4,13 @@
 
 optimization:
   # GA Parameters (configurable per-experiment)
-  population_size: 15              # Default: 15 individuals per generation
-  crossover_parent_count: 6        # Number of parents selected for crossover
-  children_from_crossover: 9  # Children produced after parent removal
-  mutation_rate: 0.1
+  population_size: 100              # Default: 15 individuals per generation
+  crossover_parent_count: 40        # Number of parents selected for crossover
+  children_from_crossover: 60  # Children produced after parent removal
+  mutation_rate: 0.01
   mutation_strength: 0.05
   max_generations: 30
-  spatial_dimensions: [10, 10]  # width, height in grid units
+  spatial_dimensions: [128, 128]  # width, height in grid units
   
 # ================================================================================
 # Gaussian Process Surrogate Model Settings
