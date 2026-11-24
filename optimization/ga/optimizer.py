@@ -144,17 +144,18 @@ class GeneticAlgorithmOptimizer:
         self.max_generations = max_generations
         self.expected_children = expected_children
         self.seed = seed
+        self.mask = mask_definition()
     
     def optimize(
         self,
         objective_function: Callable,
-        feature_bounds: Tuple[float, float] = (0.0, 1.0),
     ):
         """Run optimization loop until termination criteria met."""
-        initial_population = initialize_population(self.shape, self.population_size)
-        mask = mask_definition()
+        current_population = initialize_population(self.shape, self.population_size)
         for i in range(self.max_generations):
-          selection = selection(initial_population, mask)
+          selection = selection(current_population, self.mask)
           crossover = crossover_select(selection, self.expected_children)
           mutation = mutation_apply(crossover)
-          initial_population = mutation
+          current_population = mutation
+        best_solution = current_population[0]
+        return best_solution
