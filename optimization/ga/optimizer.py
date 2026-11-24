@@ -150,12 +150,13 @@ class GeneticAlgorithmOptimizer:
         self,
         objective_function: Callable,
     ):
-        """Run optimization loop until termination criteria met."""
         current_population = initialize_population(self.shape, self.population_size)
+        
         for i in range(self.max_generations):
-          selection = selection(current_population, self.mask)
-          crossover = crossover_select(selection, self.expected_children)
-          mutation = mutation_apply(crossover)
-          current_population = mutation
+            selected = selection(current_population, self.mask)
+            children = crossover_select(selected, self.expected_children)
+            mutated = mutation_apply(children)
+            current_population = mutated
+        
         best_solution = current_population[0]
         return best_solution

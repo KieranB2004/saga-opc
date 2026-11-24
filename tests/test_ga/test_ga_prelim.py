@@ -67,8 +67,43 @@ plt.tight_layout()
 ga = GeneticAlgorithmOptimizer(
     population_size = 15,
     max_generations = 30,
-    random_seed = 777,
-    size = SHAPE,
-    expected_cildren = EXPECTED_CHILDREN
+    seed = 777,
+    shape = SHAPE,
+    expected_children = EXPECTED_CHILDREN
 )
 
+# Define the objective function to optimize
+def fitness_objective(population):
+    """Calculate fitness: lower is better (minimizing error from target mask)."""
+    # Convert population to boolean mask if needed
+    current_mask = population > 0.5  # Assuming binary-like individuals
+    
+    # Calculate difference between current generation and target mask
+    error = np.sum(np.abs(current_mask.astype(int) - developed_mask))
+    
+    # We want to minimize error, so return negative for maximization algorithms
+    return float(-error)
+
+
+# Run the optimization and get best result
+best_population = ga.optimize(
+    objective_function = fitness_objective,
+)
+
+end_optimization = time.perf_counter()
+print(f"Optimization completed in {end_optimization - end_total:.4f} seconds")
+
+# Calculate final fitness for reporting
+final_fitness = float(-np.sum(np.abs((best_population > 0.5).astype(int) - developed_mask)))
+print(f"Final error: {abs(final_fitness):.4f}")
+
+# Plot the optimized result
+fig2, ax2 = plt.subplots(figsize=(8, 6))
+ax2.imshow(best_population, cmap='Blues', origin='lower')
+ax2.set_xlabel('X (pixels)')
+ax2.set_ylabel('Y (pixels)')
+ax2.set_title(f'Optimized Mask Result (Error: {abs(final_fitness):.4f})')
+
+plt.tight_layout()
+plt.savefig('optimized_result.png')  # Save to disk instead of showing
+print("Result saved to 'optimized_result.png'")
