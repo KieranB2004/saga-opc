@@ -19,7 +19,7 @@ from optimization.ga.optimizer import GeneticAlgorithmOptimizer
 PX_PER_UM = CONFIG["optics"]["grid_resolution_px_per_um"]
 WINDOW_SIZE = CONFIG["optics"]["window_size_xy"]
 SHAPE = CONFIG["optimization"]["spatial_dimensions"]
-expected_children = CONFIG["optimization"]["children_from_crossover"]
+EXPECTED_CHILDREN = CONFIG["optimization"]["children_from_crossover"]
 
 
 start_total = time.perf_counter()
@@ -65,9 +65,10 @@ print(end_total - start_total)
 plt.tight_layout()
 
 ga = GeneticAlgorithmOptimizer(
-    population_size=15,
-    max_generations=30,
-    random_seed=42,
+    population_size = 15,
+    max_generations = 30,
+    random_seed = 777,
     size = SHAPE,
-    
+    expected_cildren = EXPECTED_CHILDREN
 )
+
