@@ -4,12 +4,12 @@
 
 optimization:
   # GA Parameters (configurable per-experiment)
-  population_size: 32            # Default: 15 individuals per generation
-  crossover_parent_count: 4       # Number of parents selected for crossover
-  children_from_crossover: 28  # Children produced after parent removal
-  mutation_rate: 0.001
+  population_size: 50            # Default: 15 individuals per generation
+  crossover_parent_count: 40       # Number of parents selected for crossover
+  children_from_crossover: 10  # Children produced after parent removal
+  mutation_rate: 0.002
   mutation_strength: 0.05
-  max_generations: 1000
+  max_generations: 100
   spatial_dimensions: [128, 128]  # width, height in grid units
   
 # ================================================================================
@@ -30,7 +30,7 @@ surrogate:
 
 optics:
   wavelength_um: 0.193
-  numerical_aperture: 1.00
+  numerical_aperture: 0.93
   coherence_factor_sigma: 1
   # ENGINEERING NOTE: these parameters below were found to be best for expected result modelling(near realtime)
   grid_resolution_px_per_um: 100
